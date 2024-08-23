@@ -25,24 +25,24 @@ Clona este repositorio en tu máquina local utilizando Git:
 
 ```bash
 git clone https://github.com/BrEaLSxx7/prueba-fullstack.git
-cd prueba-fullstack
+cd prueba-fullstack```
 
 ### 2.  Configuración del Backend (Node.js + Express)
 
 Ve a la carpeta del backend:
 
 ```bash
-cd back-prueba
+cd back-prueba```
 
 Instala las dependencias de Node.js:
 
 ```bash
-npm install
+npm install```
 
 Inicia el servidor:
 
 ```bash
-npm start
+npm start```
 
 El servidor se ejecutará en http://localhost:3000 por defecto.
 
@@ -51,16 +51,16 @@ El servidor se ejecutará en http://localhost:3000 por defecto.
 Ve a la carpeta del frontend:
 
 ```bash
-cd front-prueba
+cd front-prueba```
 
 Instala las dependencias de Angular:
 
 ```bash
-npm install
+npm install```
 
 Inicia el servidor de desarrollo de Angular:
 
 ```bash
-ng serve
+ng serve```
 
 La aplicación estará disponible en http://localhost:4200.
