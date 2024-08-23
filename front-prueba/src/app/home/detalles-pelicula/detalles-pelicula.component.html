@@ -1,0 +1,152 @@
+<h2 mat-dialog-title>{{ pelicula.title }}</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="detalles">
+    <img
+      [src]="pelicula.poster || 'imagenes/sin-imagen.jpg'"
+      [alt]="pelicula.title"
+    />
+    <div class="detalles-info">
+      <p><strong>Year:</strong> {{ pelicula.year }}</p>
+      <p><strong>Rated:</strong> {{ pelicula.rated }}</p>
+      <p><strong>Type:</strong> {{ pelicula.type }}</p>
+      <p><strong>duration:</strong> {{ pelicula.runtime | timeConverter }}</p>
+      <p>
+        <strong>Languages:</strong>
+        {{ pelicula.languages || "No information available" }}
+      </p>
+      <p>
+        <strong>Countries:</strong>
+        {{ pelicula.countries || "No information available" }}
+      </p>
+      <p>
+        <strong>Genres:</strong>
+        {{ pelicula.genres || "No information available" }}
+      </p>
+      <p>
+        <strong>Directed by:</strong>
+        {{ pelicula.directors || "No information available" }}
+      </p>
+      <p>
+        <strong>Writers:</strong>
+        {{ pelicula.writers || "No information available" }}
+      </p>
+      <p>
+        <strong>Cast:</strong> {{ pelicula.cast || "No information available" }}
+      </p>
+    </div>
+  </div>
+  <div>
+    <h3>Synopsis</h3>
+    <p>{{ pelicula.fullplot }}</p>
+  </div>
+  <div>
+    <h3>Ratings</h3>
+    <div class="rating">
+      <div>
+        <h4>Imdb</h4>
+        <span class="calificaciones">
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            class="ipc-icon ipc-icon--star-inline"
+            viewBox="0 0 24 24"
+            fill="#f5c518"
+            role="presentation"
+          >
+            <path
+              d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"
+            ></path>
+          </svg>
+          <span class="calificacion">{{ pelicula.imdb?.rating || 0 }}</span>
+          <span>&nbsp;({{ pelicula.imdb?.votes || 0 | number }})</span>
+        </span>
+      </div>
+      <div>
+        <h4>Tomatoes (Viewer)</h4>
+        <span class="calificaciones"
+          ><svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            class="ipc-icon ipc-icon--star-inline"
+            viewBox="0 0 24 24"
+            fill="#f5c518"
+            role="presentation"
+          >
+            <path
+              d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"
+            ></path>
+          </svg>
+          <span class="calificacion">{{
+            pelicula.tomatoes?.viewer?.rating || 0
+          }}</span>
+          <span
+            >&nbsp;({{
+              pelicula.tomatoes?.viewer?.numReviews || 0 | number
+            }})</span
+          >
+        </span>
+      </div>
+      <div>
+        <h4>Tomatoes (Critic)</h4>
+        <span class="calificaciones"
+          ><svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            class="ipc-icon ipc-icon--star-inline"
+            viewBox="0 0 24 24"
+            fill="#f5c518"
+            role="presentation"
+          >
+            <path
+              d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"
+            ></path>
+          </svg>
+          <span class="calificacion">{{
+            pelicula.tomatoes?.critic?.rating || 0
+          }}</span>
+          <span
+            >&nbsp;({{
+              pelicula.tomatoes?.critic?.numReviews || 0 | number
+            }})</span
+          >
+        </span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h3>Awards</h3>
+    <div class="awards-titles">
+      <h4>Description</h4>
+      <h4>Nominations</h4>
+      <h4>Wins</h4>
+    </div>
+    <div class="awards-titles">
+      <p>{{pelicula.awards?.text}}</p>
+      <p>{{pelicula.awards?.nominations}}</p>
+      <p>{{pelicula.awards?.wins}}</p>
+    </div>
+  </div>
+  <div class="comentarios">
+    <h3>Comments</h3>
+      @for (comentario of comentarios; track comentario) {
+        <mat-card appearance="outlined" class="comments">
+          <mat-card-header>{{comentario.name}} <small> ({{comentario.email}})</small></mat-card-header>
+          <mat-card-content>
+            <p matListItemLine>{{comentario.text}}</p>
+            <p matListItemLine>{{comentario.date| date}}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
+@if(isLoading){
+  <div class="loading-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+}

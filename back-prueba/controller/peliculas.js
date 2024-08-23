@@ -1,11 +1,13 @@
 const conector = require("../models/conexion")
-const projection = { poster: 1, title: 1, plot: 1, year: 1, rated: 1, genres: 1, runtime: 1 };
+const projection = { };
 class PeliculasController {
     async findAll(req, res) {
-        console.log()
         try {
-            let peliculas = await conector.get('movies',{},{limit:req.query.limit,skip:req.query.offset,projection});
-            return res.json(peliculas);
+            let peliculas = await conector.get('movies',{
+                $or: [{ title: {$regex: new RegExp(req.query.search), $options: 'i' } }, { fullplot: {$regex: new RegExp(req.query.search), $options: 'i' } }, { plot: {$regex: new RegExp(req.query.search), $options: 'i' } }]
+              },{limit:req.query.limit,skip:req.query.offset,projection});
+            let count = await conector.count('movies');
+            return res.json({peliculas,count});
         } catch (err) {
             res.status(500).send({
                 message:

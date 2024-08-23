@@ -1,0 +1,110 @@
+.paginador {
+  width: 95vw;
+}
+.peliculas {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 2%;
+}
+.cards-peliculas {
+  width: 15vw;
+  height: 50vh;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+.toolbar {
+  height: 10vh;
+  position: static;
+  background-color: #d7e3ff;
+  color: #005cbb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+}
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+  width: 100%;
+}
+img {
+  width: 100%;
+  min-height: 80%;
+}
+p {
+  font-size: 14px;
+  margin: 3%;
+}
+h5 {
+  margin: 3%;
+}
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 1000;
+}
+
+.button {
+  margin: 5%;
+  width: 20%;
+}
+.form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+@media (max-width: 1250px) {
+  .peliculas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 2%;
+  }
+  .cards-peliculas {
+    width: 25vw;
+    height: 50vh;
+    margin-bottom: 2%;
+    cursor: pointer;
+  }
+}
+@media (max-width: 620px) {
+  .peliculas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2%;
+  }
+  .cards-peliculas {
+    width: 35vw;
+    height: 50vh;
+    margin-bottom: 2%;
+    cursor: pointer;
+  }
+}
+@media (max-width: 450px) {
+  .peliculas {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 2%;
+  }
+  .cards-peliculas {
+    width: 90vw;
+    height: 50vh;
+    margin-bottom: 2%;
+    cursor: pointer;
+  }
+}

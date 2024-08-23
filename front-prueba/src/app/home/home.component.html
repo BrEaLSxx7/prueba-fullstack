@@ -1,0 +1,49 @@
+<mat-toolbar class="toolbar">
+  <span>Peliculas</span>
+  <div class="filtros">
+    <form class="form">
+      <mat-form-field class="search">
+        <mat-label>Search by title, description etc</mat-label>
+        <input matInput [(ngModel)]="search" [ngModelOptions]="{standalone: true}" placeholder="Search by title, description etc" >
+      </mat-form-field>
+    </form>
+    <button mat-flat-button class="button" (click)="getPeliculas()">Search</button>
+  </div>
+</mat-toolbar>
+@if (Peliculas?.length) {
+  <div class="peliculas">
+    @for (pelicula of Peliculas; track $index) {
+    <mat-card (click)="showDetalles(pelicula)" colspan="1" rowspan="1" class="cards-peliculas" appearance="outlined">
+      <img
+        mat-card-image
+        [src]="pelicula.poster || 'imagenes/sin-imagen.jpg'"
+        [alt]="pelicula.title"
+      />
+      <mat-card-content>
+        <h5>{{pelicula.title}}</h5>
+        <p>From: {{pelicula.directors?.length ? (pelicula.directors!.join()| truncate:20) : 'No information available' }}</p>
+      </mat-card-content>
+    </mat-card>
+    }
+  </div>
+  @if(search == ''){
+    <div class="paginador">
+      <mat-paginator
+        [length]="pageEvent.length"
+        [pageSize]="pageEvent.pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        [showFirstLastButtons]="true"
+        (page)="handlePageEvent($event)"
+        [pageIndex]="pageEvent.pageIndex"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+  }
+}
+@if(isLoading){
+  <div class="loading-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+}
+

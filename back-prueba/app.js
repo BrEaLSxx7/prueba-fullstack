@@ -3,12 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors')
+
+var corsOptions = {
+  origin: 'https://pruebafullstack.pages.dev',
+  optionsSuccessStatus: 200 
+}
 
 const peliculas = require("./controller/peliculas");
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const comentarios = require("./controller/comentarios");
 
-const db = require("./config");
 var app = express();
 
 app.use(logger('dev'));
@@ -17,7 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-app.use('/peliculas', peliculas.findAll);
+app.get('/peliculas', cors(corsOptions), (req, res, next)=>{
+  peliculas.findAll(req, res);
+});
+app.get('/comentarios', cors(corsOptions), (req, res, next)=>{
+  comentarios.findByMovie(req, res);
+});
 app.use(function(req, res, next) {
   next(createError(404));
 });
