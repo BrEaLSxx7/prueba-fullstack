@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Peliculas } from '../interfaces/peliculas';
-import { peliculaSelector } from '../selectors/pelicuka.selectors';
 import { HomeServiceService } from '../services/home-service.service';
 import { Comentarios } from '../interfaces/comentarios';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
