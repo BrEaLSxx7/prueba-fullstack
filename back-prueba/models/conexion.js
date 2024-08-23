@@ -10,9 +10,7 @@ class Conector {
     }
 
     async connect() {
-        if (!this.client.isConnected()) {
-            await this.client.connect();
-        }
+        await this.client.connect();
         this.database = this.client.db("sample_mflix");
     }
 

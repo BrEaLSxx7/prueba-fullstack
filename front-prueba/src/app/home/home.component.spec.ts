@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { PeticionPeliculas } from './interfaces/peliculas';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -24,7 +25,10 @@ describe('HomeComponent', () => {
     mockHomeService = jasmine.createSpyObj('HomeServiceService', ['getPeliculas']);
     mockStore = jasmine.createSpyObj('Store', ['dispatch']);
     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
-
+    const mockMovies: PeticionPeliculas = {
+      peliculas: [],
+      count: 0
+    };
     await TestBed.configureTestingModule({
       imports: [
         MatPaginatorModule,
@@ -34,9 +38,9 @@ describe('HomeComponent', () => {
         MatProgressSpinnerModule,
         MatToolbarModule,
         MatInputModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        HomeComponent
       ],
-      declarations: [HomeComponent],
       providers: [
         { provide: HomeServiceService, useValue: mockHomeService },
         { provide: Store, useValue: mockStore },
