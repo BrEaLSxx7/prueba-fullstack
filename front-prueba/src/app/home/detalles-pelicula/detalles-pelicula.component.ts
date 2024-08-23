@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Peliculas } from '../interfaces/peliculas';
 import { peliculaSelector } from '../selectors/pelicuka.selectors';
 import { HomeServiceService } from '../services/home-service.service';
 import { Comentarios } from '../interfaces/comentarios';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { TimeConverterPipe } from '../../pipes/time-converter.pipe';
 import { DecimalPipe,DatePipe } from '@angular/common';
@@ -19,22 +19,30 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './detalles-pelicula.component.scss'
 })
 export class DetallesPeliculaComponent implements OnInit{
-  public pelicula:Peliculas={};
   public comentarios:Comentarios[]=[];
   public isLoading: boolean = false;
-  constructor (private store:Store<Peliculas>,
+  constructor (
+    @Inject(MAT_DIALOG_DATA) public pelicula: Peliculas,
     private homeService: HomeServiceService
   ) {
-    this.store.select(peliculaSelector).subscribe((movie:Peliculas)=>{
-      this.pelicula = movie;
-    })
+
   }
   ngOnInit(): void {
+    if (this.pelicula && this.pelicula._id) {
+      this.loadComentarios(this.pelicula._id);
+    }
+  }
 
+  private loadComentarios(peliculaId: string): void {
     this.isLoading = true;
-    this.homeService.getComentarios(this.pelicula._id || '').subscribe((comments:Comentarios[])=>{
-      this.comentarios = comments;
-      this.isLoading = false;
-    })
+    this.homeService.getComentarios(peliculaId).subscribe({
+      next: (comments: Comentarios[]) => {
+        this.comentarios = comments;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
   }
 }

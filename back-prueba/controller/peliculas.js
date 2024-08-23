@@ -3,15 +3,23 @@ const projection = { };
 class PeliculasController {
     async findAll(req, res) {
         try {
-            let peliculas = await conector.get('movies',{
-                $or: [{ title: {$regex: new RegExp(req.query.search), $options: 'i' } }, { fullplot: {$regex: new RegExp(req.query.search), $options: 'i' } }, { plot: {$regex: new RegExp(req.query.search), $options: 'i' } }]
-              },{limit:req.query.limit,skip:req.query.offset,projection});
-            let count = await conector.count('movies');
+            const searchQuery = req.query.search || '';
+            const limit = parseInt(req.query.limit, 10) || 0;
+            const offset = parseInt(req.query.offset, 10) || 0;
+
+            const regexQuery = {
+                $or: [
+                    { title: { $regex: new RegExp(searchQuery, 'i') } },
+                    { fullplot: { $regex: new RegExp(searchQuery, 'i') } },
+                    { plot: { $regex: new RegExp(searchQuery, 'i') } }
+                ]
+            };
+            const peliculas = await conector.get('movies', regexQuery, { limit, skip: offset });
+            const count = await conector.count('movies', regexQuery);
             return res.json({peliculas,count});
         } catch (err) {
-            res.status(500).send({
-                message:
-                    err.message || "Error al realizar la búsqueda"
+            res.status(500).json({
+                message: err.message || "Error when searching"
             });
         }
     };

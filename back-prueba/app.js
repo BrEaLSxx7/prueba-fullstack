@@ -19,12 +19,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors(corsOptions)); 
 
-
-app.get('/peliculas', cors(corsOptions), (req, res, next)=>{
+app.get('/peliculas', (req, res, next)=>{
   peliculas.findAll(req, res);
 });
-app.get('/comentarios', cors(corsOptions), (req, res, next)=>{
+app.get('/comentarios', (req, res, next)=>{
   comentarios.findByMovie(req, res);
 });
 app.use(function(req, res, next) {
