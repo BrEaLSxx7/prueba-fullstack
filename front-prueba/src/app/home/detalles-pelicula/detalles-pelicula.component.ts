@@ -31,7 +31,7 @@ export class DetallesPeliculaComponent implements OnInit{
     }
   }
 
-  private loadComentarios(peliculaId: string): void {
+  public loadComentarios(peliculaId: string): void {
     this.isLoading = true;
     this.homeService.getComentarios(peliculaId).subscribe({
       next: (comments: Comentarios[]) => {

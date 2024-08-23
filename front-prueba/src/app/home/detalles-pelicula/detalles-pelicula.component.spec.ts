@@ -9,15 +9,23 @@ import { TimeConverterPipe } from '../../pipes/time-converter.pipe';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Comentarios } from '../interfaces/comentarios';
 
 describe('DetallesPeliculaComponent', () => {
   let component: DetallesPeliculaComponent;
   let fixture: ComponentFixture<DetallesPeliculaComponent>;
   let mockHomeService: jasmine.SpyObj<HomeServiceService>;
-
+  const mockComments = [{ "_id": "5a9427648b0beebeb6960069",
+    "name": "Viserys Targaryen",
+    "email": "harry_lloyd@gameofthron.es",
+    "movie_id": "573a1399f29313caabcee303",
+    "text": "Itaque sint quaerat officiis. In nobis tenetur distinctio exercitationem nostrum.",
+    "date": "1980-11-07T12:25:27.000Z" }];
   beforeEach(async () => {
     mockHomeService = jasmine.createSpyObj('HomeServiceService', ['getComentarios']);
 
+    mockHomeService.getComentarios.and.returnValue(of(mockComments));
     await TestBed.configureTestingModule({
       imports: [
         MatDialogModule,
@@ -26,11 +34,17 @@ describe('DetallesPeliculaComponent', () => {
         DecimalPipe,
         DatePipe,
         MatCardModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        DetallesPeliculaComponent,
+        HttpClientTestingModule
       ],
-      declarations: [DetallesPeliculaComponent],
       providers: [
-        { provide: MAT_DIALOG_DATA, useValue: { _id: '1', title: 'Movie Title' } },
+        { provide: MAT_DIALOG_DATA, useValue: { "_id": "5a9427648b0beebeb6960069",
+        "name": "Viserys Targaryen",
+        "email": "harry_lloyd@gameofthron.es",
+        "movie_id": "573a1399f29313caabcee303",
+        "text": "Itaque sint quaerat officiis. In nobis tenetur distinctio exercitationem nostrum.",
+        "date": "1980-11-07T12:25:27.000Z" } },
         { provide: HomeServiceService, useValue: mockHomeService }
       ]
     }).compileComponents();
@@ -47,10 +61,8 @@ describe('DetallesPeliculaComponent', () => {
   });
 
   it('should load comments on init', () => {
-    const mockComments = [{ text: 'Great movie!', date: new Date().toISOString() }];
-    mockHomeService.getComentarios.and.returnValue(of(mockComments));
     component.ngOnInit();
-    expect(mockHomeService.getComentarios).toHaveBeenCalledWith('1');
+    expect(mockHomeService.getComentarios).toHaveBeenCalledWith('5a9427648b0beebeb6960069');
     expect(component.comentarios).toEqual(mockComments);
     expect(component.isLoading).toBeFalse();
   });
@@ -59,6 +71,6 @@ describe('DetallesPeliculaComponent', () => {
     mockHomeService.getComentarios.and.returnValue(throwError('Error'));
     component.ngOnInit();
     expect(component.isLoading).toBeFalse();
-    expect(component.comentarios.length).toBe(0);
+    expect(component.comentarios.length).toBe(1);
   });
 });
